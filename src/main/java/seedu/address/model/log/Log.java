@@ -39,6 +39,10 @@ public class Log {
         return test.matches(VALIDATION_REGEX);
     }
 
+    public static boolean isValidLog(String test) {
+        return test.matches(VALIDATION_REGEX);
+    }
+
     /**
      * Returns the log entry.
      */

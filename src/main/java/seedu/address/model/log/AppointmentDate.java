@@ -9,8 +9,10 @@ import java.util.Objects;
  */
 public class AppointmentDate {
 
+    public static final String MESSAGE_CONSTRAINTS = "Appointment Date should have the format dd MM yyyy";
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd MMM yyyy");
     private final LocalDate date;
+    private static final String VALIDATION_REGEX = "\\d{4}-\\d{2}-\\d{2}";
 
     /**
      * Constructs an {@code AppointmentDate} with the specified {@code LocalDate}.
@@ -28,6 +30,10 @@ public class AppointmentDate {
      */
     public AppointmentDate(String dateString) {
         this.date = LocalDate.parse(dateString);
+    }
+
+    public static boolean isValidAppointmentDate(String test) {
+        return test.matches(VALIDATION_REGEX);
     }
 
     /**

@@ -9,6 +9,8 @@ import java.util.Set;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.log.AppointmentDate;
+import seedu.address.model.log.Log;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.IdentityNumber;
@@ -130,5 +132,23 @@ public class ParserUtil {
             throw new ParseException(IdentityNumber.MESSAGE_CONSTRAINTS);
         }
         return new IdentityNumber(trimmedIdentityNumber);
+    }
+
+    public static AppointmentDate parseAppointmentDate(String appointmentDate) throws ParseException {
+        requireNonNull(appointmentDate);
+        String trimmedAppointmentDate = appointmentDate.trim();
+        if (!AppointmentDate.isValidAppointmentDate(trimmedAppointmentDate)) {
+            throw new ParseException(AppointmentDate.MESSAGE_CONSTRAINTS);
+        }
+        return new AppointmentDate(trimmedAppointmentDate);
+    }
+
+    public static Log parseLog(String log) {
+        requireNonNull(log);
+        String trimmedLog = log.trim();
+        if (!Log.isValidLog(trimmedLog)) {
+            throw new ParseException(Log.MESSAGE_CONSTRAINTS);
+        }
+        return new Log(log);
     }
 }

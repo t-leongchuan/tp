@@ -8,7 +8,6 @@ import java.util.List;
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.log.Log;
-import seedu.address.model.person.IdentityNumber;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 
@@ -104,6 +103,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         requireAllNonNull(person, log);
         persons.addLogToPerson(person, log);
     }
+
 
     //// util methods
 
