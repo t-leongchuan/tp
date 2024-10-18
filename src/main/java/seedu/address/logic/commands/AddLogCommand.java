@@ -1,12 +1,14 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.List;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.log.AppointmentDate;
 import seedu.address.model.log.Log;
 import seedu.address.model.person.IdentityNumber;
 import seedu.address.model.person.Person;
@@ -26,26 +28,24 @@ public class AddLogCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Added log to Person: %1$s";
     public static final String MESSAGE_PERSON_NOT_FOUND = "Person with ID %1$s not found.";
 
-    private final Person person;
+    private final IdentityNumber identityNumber;
+    private final AppointmentDate appointmentDate;
     private final Log log;
 
-    public AddLogCommand(Person person, Log log) {
-        requireNonNull(person);
-        requireNonNull(log);
-        this.person = person;
+    public AddLogCommand(IdentityNumber identityNumber, AppointmentDate appointmentDate, Log log) {
+        requireAllNonNull(identityNumber, appointmentDate, log);
+        this.identityNumber = identityNumber;
+        this.appointmentDate = appointmentDate;
         this.log = log;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        List<Person> lastShownList = model.getFilteredPersonList();
+        Person identifiedPerson = null;
 
-        if (!model.hasPerson(person)) {
-            throw new CommandException(String.format(MESSAGE_PERSON_NOT_FOUND, person));
-        }
-
-        model.addLogToPerson(person, log);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, person));
+        return new CommandResult(MESSAGE_SUCCESS);
     }
 
     @Override
@@ -60,14 +60,16 @@ public class AddLogCommand extends Command {
         }
 
         AddLogCommand otherAddLogCommand = (AddLogCommand) other;
-        return person.equals(otherAddLogCommand.person) && log.equals(otherAddLogCommand.log);
+        return identityNumber.equals(otherAddLogCommand.identityNumber) && log.equals(otherAddLogCommand.log)
+                && appointmentDate.equals(otherAddLogCommand.appointmentDate);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("identityNumber", person)
+                .add("identityNumber", identityNumber)
                 .add("log", log)
+                .add("appointmentDate", appointmentDate)
                 .toString();
     }
 }
