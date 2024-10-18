@@ -122,6 +122,11 @@ public class ModelManager implements Model {
         addressBook.addLogToPerson(person, log);
     }
 
+    @Override
+    public ObservableList<Log> getLogList(int personIndex) {
+        return addressBook.getLogList(personIndex);
+    }
+
     //=========== Filtered Person List Accessors =============================================================
 
     /**

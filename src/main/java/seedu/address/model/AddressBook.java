@@ -104,6 +104,10 @@ public class AddressBook implements ReadOnlyAddressBook {
         persons.addLogToPerson(person, log);
     }
 
+    public ObservableList<Log> getLogList(int personIndex) {
+        return persons.asUnmodifiableObservableListOfLog(personIndex);
+    }
+
 
     //// util methods
 

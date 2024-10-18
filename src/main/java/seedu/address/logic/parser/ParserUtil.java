@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
@@ -143,12 +144,15 @@ public class ParserUtil {
         return new AppointmentDate(trimmedAppointmentDate);
     }
 
-    public static Log parseLog(String log) {
-        requireNonNull(log);
-        String trimmedLog = log.trim();
-        if (!Log.isValidLog(trimmedLog)) {
+
+    public static Log parseLog(String logDescription, String date) throws ParseException {
+        requireNonNull(logDescription);
+        String trimmedLogDescription = logDescription.trim();
+        if (!Log.isValidLog(trimmedLogDescription)) {
             throw new ParseException(Log.MESSAGE_CONSTRAINTS);
         }
-        return new Log(log);
+
+        AppointmentDate appointmentDate = parseAppointmentDate(date);
+        return new Log(appointmentDate, trimmedLogDescription);
     }
 }

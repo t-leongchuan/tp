@@ -92,4 +92,7 @@ public interface Model {
      * The person must exist in the address book.
      */
     void addLogToPerson(Person person, Log log);
+
+    /** Returns an unmodifiable view of the Person's log, found through the person's index. */
+    ObservableList<Log> getLogList(int personIndex);
 }

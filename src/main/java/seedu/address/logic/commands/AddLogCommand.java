@@ -8,7 +8,6 @@ import java.util.List;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.log.AppointmentDate;
 import seedu.address.model.log.Log;
 import seedu.address.model.person.IdentityNumber;
 import seedu.address.model.person.Person;
@@ -22,20 +21,18 @@ public class AddLogCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Adds a log to the person identified by the Identification Number.\n"
-            + "Parameters: p/PERSON d/APPOINTMENT_DATE e/ENTRY\n"
-            + "Example: " + COMMAND_WORD + " i/S1234567Z d/2024-10-17 e/Discussed treatment options.";
+            + "Parameters: i/NRIC d/APPOINTMENT_DATE e/ENTRY\n"
+            + "Example: " + COMMAND_WORD + " i/S6285715C d/2024-10-17 l/Discussed treatment options.";
 
-    public static final String MESSAGE_SUCCESS = "Added log to Person: %1$s";
+    public static final String MESSAGE_ADD_LOG_SUCCESS = "Added log to Person: %1$s";
     public static final String MESSAGE_PERSON_NOT_FOUND = "Person with ID %1$s not found.";
 
     private final IdentityNumber identityNumber;
-    private final AppointmentDate appointmentDate;
     private final Log log;
 
-    public AddLogCommand(IdentityNumber identityNumber, AppointmentDate appointmentDate, Log log) {
-        requireAllNonNull(identityNumber, appointmentDate, log);
+    public AddLogCommand(IdentityNumber identityNumber, Log log) {
+        requireAllNonNull(identityNumber, log);
         this.identityNumber = identityNumber;
-        this.appointmentDate = appointmentDate;
         this.log = log;
     }
 
@@ -43,9 +40,24 @@ public class AddLogCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         List<Person> lastShownList = model.getFilteredPersonList();
-        Person identifiedPerson = null;
+        Person personToUpdate = null;
 
-        return new CommandResult(MESSAGE_SUCCESS);
+        // Find the person by identity number
+        for (Person person : lastShownList) {
+            if (person.getIdentityNumber().equals(identityNumber)) {
+                personToUpdate = person;
+                break;
+            }
+        }
+
+        // If person was not found, throw an exception
+        if (personToUpdate == null) {
+            throw new CommandException(String.format(MESSAGE_PERSON_NOT_FOUND, identityNumber));
+        }
+
+        model.addLogToPerson(personToUpdate, log);
+
+        return new CommandResult(String.format(MESSAGE_ADD_LOG_SUCCESS, personToUpdate.getName()));
     }
 
     @Override
@@ -60,8 +72,7 @@ public class AddLogCommand extends Command {
         }
 
         AddLogCommand otherAddLogCommand = (AddLogCommand) other;
-        return identityNumber.equals(otherAddLogCommand.identityNumber) && log.equals(otherAddLogCommand.log)
-                && appointmentDate.equals(otherAddLogCommand.appointmentDate);
+        return identityNumber.equals(otherAddLogCommand.identityNumber) && log.equals(otherAddLogCommand.log);
     }
 
     @Override
@@ -69,7 +80,6 @@ public class AddLogCommand extends Command {
         return new ToStringBuilder(this)
                 .add("identityNumber", identityNumber)
                 .add("log", log)
-                .add("appointmentDate", appointmentDate)
                 .toString();
     }
 }

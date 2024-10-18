@@ -122,6 +122,10 @@ public class UniquePersonList implements Iterable<Person> {
         internalList.set(index, personWithNewLog);
     }
 
+    public ObservableList<Log> asUnmodifiableObservableListOfLog(int personIndex) {
+        return internalUnmodifiableList.get(personIndex).getLogs();
+    }
+
     @Override
     public Iterator<Person> iterator() {
         return internalList.iterator();
