@@ -11,6 +11,7 @@ import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.IdentityNumber;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
@@ -120,5 +121,14 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+
+    public static IdentityNumber parseIdentityNumber(String identityNumber) throws ParseException {
+        requireNonNull(identityNumber);
+        String trimmedIdentityNumber = identityNumber.trim();
+        if (!IdentityNumber.isValidIdentityNumber(trimmedIdentityNumber)) {
+            throw new ParseException(IdentityNumber.MESSAGE_CONSTRAINTS);
+        }
+        return new IdentityNumber(trimmedIdentityNumber);
     }
 }

@@ -15,6 +15,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+import com.sun.scenario.effect.Identity;
+
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
@@ -23,6 +25,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.IdentityNumber;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
@@ -100,8 +103,10 @@ public class EditCommand extends Command {
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
+        IdentityNumber updatedIdentityNumber = editPersonDescriptor.getIdentityNumber().
+                orElse(personToEdit.getIdentityNumber());
 
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+        return new Person(updatedName, updatedIdentityNumber, updatedPhone, updatedEmail, updatedAddress, updatedTags);
     }
 
     @Override
@@ -134,6 +139,7 @@ public class EditCommand extends Command {
      */
     public static class EditPersonDescriptor {
         private Name name;
+        private IdentityNumber identityNumber;
         private Phone phone;
         private Email email;
         private Address address;
@@ -147,6 +153,7 @@ public class EditCommand extends Command {
          */
         public EditPersonDescriptor(EditPersonDescriptor toCopy) {
             setName(toCopy.name);
+            setIdentityNumber(toCopy.identityNumber);
             setPhone(toCopy.phone);
             setEmail(toCopy.email);
             setAddress(toCopy.address);
@@ -166,6 +173,14 @@ public class EditCommand extends Command {
 
         public Optional<Name> getName() {
             return Optional.ofNullable(name);
+        }
+
+        public void setIdentityNumber(IdentityNumber identityNumber) {
+            this.identityNumber = identityNumber;
+        }
+
+        public Optional<IdentityNumber> getIdentityNumber() {
+            return Optional.ofNullable(identityNumber);
         }
 
         public void setPhone(Phone phone) {
