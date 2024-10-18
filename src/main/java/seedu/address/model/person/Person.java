@@ -1,13 +1,19 @@
 package seedu.address.model.person;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.log.Log;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -25,6 +31,7 @@ public class Person {
     // Data fields
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
+    private final ObservableList<Log> logs = FXCollections.observableArrayList();
 
     /**
      * Every field must be present and not null.
@@ -37,6 +44,19 @@ public class Person {
         this.email = email;
         this.address = address;
         this.tags.addAll(tags);
+    }
+
+    // New constructor to prevent breaking stuff
+    public Person(Name name, IdentityNumber identityNumber, Phone phone, Email email, Address address, Set<Tag> tags,
+                  List<Log> logs) {
+        requireAllNonNull(name, identityNumber, phone, email, address, tags, logs);
+        this.name = name;
+        this.identityNumber = identityNumber;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.tags.addAll(tags);
+        this.logs.addAll(logs);
     }
 
     public Name getName() {
@@ -80,6 +100,19 @@ public class Person {
                 && otherPerson.getName().equals(getName());
     }
 
+    // Getter for logs
+    public ObservableList<Log> getLogs() {
+        return FXCollections.unmodifiableObservableList(logs);
+    }
+
+    // Method to create a new Person with an added log
+    public Person withAddedLog(Log log) {
+        requireNonNull(log);
+        List<Log> newLogs = new ArrayList<>(logs);
+        newLogs.add(log);
+        return new Person(name, identityNumber, phone, email, address, tags, newLogs);
+    }
+
     /**
      * Returns true if both persons have the same identity and data fields.
      * This defines a stronger notion of equality between two persons.
@@ -119,5 +152,4 @@ public class Person {
                 .add("tags", tags)
                 .toString();
     }
-
 }

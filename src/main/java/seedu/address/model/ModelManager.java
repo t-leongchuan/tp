@@ -11,6 +11,8 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.log.Log;
+import seedu.address.model.person.IdentityNumber;
 import seedu.address.model.person.Person;
 
 /**
@@ -109,6 +111,15 @@ public class ModelManager implements Model {
         requireAllNonNull(target, editedPerson);
 
         addressBook.setPerson(target, editedPerson);
+    }
+
+    //=========== Session Log ================================================================================
+
+    // NEW**
+    @Override
+    public void addLogToPerson(Person person, Log log) {
+        requireAllNonNull(person, log);
+        addressBook.addLogToPerson(person, log);
     }
 
     //=========== Filtered Person List Accessors =============================================================

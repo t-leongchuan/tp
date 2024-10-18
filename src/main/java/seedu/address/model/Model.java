@@ -5,6 +5,8 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.log.Log;
+import seedu.address.model.person.IdentityNumber;
 import seedu.address.model.person.Person;
 
 /**
@@ -84,4 +86,10 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
+
+    /**
+     * Adds a log to the specified person.
+     * The person must exist in the address book.
+     */
+    void addLogToPerson(Person person, Log log);
 }

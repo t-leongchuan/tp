@@ -8,6 +8,7 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.address.model.log.Log;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 
@@ -102,6 +103,23 @@ public class UniquePersonList implements Iterable<Person> {
      */
     public ObservableList<Person> asUnmodifiableObservableList() {
         return internalUnmodifiableList;
+    }
+
+    // Log Methods
+
+    /**
+     * Adds a log to the specified person.
+     * The person must exist in the list.
+     */
+    public void addLogToPerson(Person person, Log log) {
+        requireAllNonNull(person, log);
+        int index = internalList.indexOf(person);
+        if (index == -1) {
+            throw new PersonNotFoundException();
+        }
+
+        Person personWithNewLog = person.withAddedLog(log);
+        internalList.set(index, personWithNewLog);
     }
 
     @Override

@@ -1,11 +1,14 @@
 package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.List;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.log.Log;
+import seedu.address.model.person.IdentityNumber;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 
@@ -92,6 +95,14 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void removePerson(Person key) {
         persons.remove(key);
+    }
+
+
+    // Log Methods
+
+    public void addLogToPerson(Person person, Log log) {
+        requireAllNonNull(person, log);
+        persons.addLogToPerson(person, log);
     }
 
     //// util methods
