@@ -16,6 +16,8 @@ import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.log.AppointmentDate;
+import seedu.address.model.log.Log;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -31,9 +33,11 @@ public class MainWindow extends UiPart<Stage> {
     private Logic logic;
 
     // Independent Ui parts residing in this Ui container
-    private PersonListPanel personListPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
+
+    // Central Display
+    private CentralDisplay centralDisplay;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -49,6 +53,9 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private StackPane statusbarPlaceholder;
+
+    @FXML
+    private StackPane centralDisplayPlaceholder;
 
     /**
      * Creates a {@code MainWindow} with the given {@code Stage} and {@code Logic}.
@@ -110,8 +117,9 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        personListPanel = new PersonListPanel(logic.getFilteredPersonList());
-        personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
+        centralDisplay = new CentralDisplay(logic);
+        centralDisplay.fillInnerParts();
+        centralDisplayPlaceholder.getChildren().add(centralDisplay.getRoot());
 
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
@@ -163,8 +171,35 @@ public class MainWindow extends UiPart<Stage> {
         primaryStage.hide();
     }
 
+    /**
+     * to be removed
+     */
+    @FXML
+    private void handleToggleOne() {
+        resultDisplay.setFeedbackToUser("Person List Panel is now visible.");
+        centralDisplay.showPersonListPanel();
+    }
+
+    /**
+     * to be removed
+     */
+    @FXML
+    private void handleToggleTwo() {
+        resultDisplay.setFeedbackToUser("Session Log Panel is now visible.");
+        centralDisplay.showSessionLogPanel();
+    }
+
+
+
     public PersonListPanel getPersonListPanel() {
-        return personListPanel;
+        return centralDisplay.getPersonListPanel();
+    }
+
+    /**
+     * to be removed? This is just a bodge job
+     */
+    private void handleShowSessionLogs(int personIndex) {
+        centralDisplay.handleLog(personIndex);
     }
 
     /**
@@ -184,6 +219,10 @@ public class MainWindow extends UiPart<Stage> {
 
             if (commandResult.isExit()) {
                 handleExit();
+            }
+
+            if (commandResult.isListLog()) {
+                handleShowSessionLogs(commandResult.getPersonIndex());
             }
 
             return commandResult;

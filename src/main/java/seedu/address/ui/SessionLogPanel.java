@@ -25,6 +25,10 @@ public class SessionLogPanel extends UiPart<Region> {
         logListView.setCellFactory(listView -> new SessionLogViewCell());
     }
 
+    public SessionLogPanel() {
+        super(FXML);
+    }
+
     /**
      * Custom {@code ListCell} that displays the graphics of a SessionLog
      */

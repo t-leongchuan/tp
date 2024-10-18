@@ -16,7 +16,7 @@ public class ListLogCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Lists the log entries.\n"
             + "Parameters: i/NRIC\n"
-            + "Example: " + COMMAND_WORD + "i/S6285715C";
+            + "Example: " + COMMAND_WORD + " i/S6285715C";
 
     private final IdentityNumber identityNumber;
 
@@ -48,7 +48,8 @@ public class ListLogCommand extends Command {
         }
 
         model.getLogList(personIndex);
-        return new CommandResult(String.format(MESSAGE_LIST_LOG_SUCCESS, identityNumber));
+        return new CommandResult(String.format(MESSAGE_LIST_LOG_SUCCESS, identityNumber), false,
+                false, true, personIndex);
     }
 
     @Override

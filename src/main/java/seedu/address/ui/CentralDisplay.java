@@ -33,7 +33,6 @@ public class CentralDisplay extends UiPart<Region> {
 
         // Add them to the placeholders
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
-        sessionLogPanelPlaceholder.getChildren().add(sessionLogPanel.getRoot());
     }
 
     /**
@@ -53,7 +52,10 @@ public class CentralDisplay extends UiPart<Region> {
         sessionLogPanelPlaceholder.setVisible(true);
     }
 
-    public void updateLogList(int personIndex) {
+    public void handleLog(int personIndex) {
         sessionLogPanel = new SessionLogPanel(logic.getLogList(personIndex));
+
+        sessionLogPanelPlaceholder.getChildren().add(sessionLogPanel.getRoot());
+        showSessionLogPanel();
     }
 }

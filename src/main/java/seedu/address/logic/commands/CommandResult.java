@@ -19,13 +19,24 @@ public class CommandResult {
     /** The application should exit. */
     private final boolean exit;
 
+    /** The application should show the list. */
+    private final boolean list;
+
+    // ^ NEW: might not the best as well, but there is a need to bring out more information
+    // to the GUI layer so we can update and reflect the sessionlog. please think of a better way
+
+    /** The application should use the index returned. */ // NEW: I dont think this is a good implementation.
+    private final int personIndex;
+
     /**
      * Constructs a {@code CommandResult} with the specified fields.
      */
-    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit) {
+    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, boolean list, int personIndex) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
         this.showHelp = showHelp;
         this.exit = exit;
+        this.list = list;
+        this.personIndex = personIndex;
     }
 
     /**
@@ -33,7 +44,7 @@ public class CommandResult {
      * and other fields set to their default value.
      */
     public CommandResult(String feedbackToUser) {
-        this(feedbackToUser, false, false);
+        this(feedbackToUser, false, false, false, -1);
     }
 
     public String getFeedbackToUser() {
@@ -46,6 +57,15 @@ public class CommandResult {
 
     public boolean isExit() {
         return exit;
+    }
+
+    public boolean isListLog() {
+        return list;
+    }
+
+    //Getters (ONLY FOR LIST LOG COMMAND)
+    public int getPersonIndex() {
+        return personIndex;
     }
 
     @Override
@@ -78,5 +98,4 @@ public class CommandResult {
                 .add("exit", exit)
                 .toString();
     }
-
 }
