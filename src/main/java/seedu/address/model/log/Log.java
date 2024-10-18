@@ -61,8 +61,15 @@ public class Log {
     }
 
 
-    public boolean isSameLog(Log log) {
-        return false;
+    /**
+     * Returns true if both logs have the same content.
+     */
+    public boolean isSameLog(Log otherLog) {
+        if (otherLog == this) {
+            return true;
+        }
+
+        return otherLog != null && getEntry().equals(otherLog.getEntry());
     }
 
     /**

@@ -4,9 +4,9 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
-import org.junit.platform.commons.util.ToStringBuilder;
-
 import javafx.collections.ObservableList;
+import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.log.UniqueLogList;
 
 public class LogList implements ReadOnlyLogList {
 
@@ -64,12 +64,12 @@ public class LogList implements ReadOnlyLogList {
         logs.setLog(target, editedLog);
     }
 
-//    @Override
-//    public String toString() {
-//        return new ToStringBuilder(this)
-//                .add("logs", logs)
-//                .toString();
-//    }
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .add("logs", logs)
+                .toString();
+    }
 
     @Override
     public ObservableList<Log> getLogList() {
